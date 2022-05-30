@@ -23,18 +23,19 @@
 	}
 
 	$: currentPlayer = move[playerNumber]
-	
+	let draw = false
 	function buttonClick(coordiantes) {
 		if(winner == ""){
 		if(buttonsDict[coordiantes]==""){
 			buttonsDict[coordiantes]=move[playerNumber]
 			playerNumber = !playerNumber
 			checkWinnerCol()
-			checkWinnerDiagonal(
+			checkWinnerDiagonal()
 			checkWinnerRow()
-			)
+			draw = checkDraw()
+			
 		} 
-	} console.log(checkDraw())}
+	} }
 	function checkWinnerRow(){for(let i= 0; i<=2;i++ ){
 			
 			if(buttonsDict[rows[i][0]]==buttonsDict[rows[i][1]] && buttonsDict[rows[i][1]]==buttonsDict[rows[i][2]] ){
@@ -76,9 +77,9 @@
 		"33": "",
 	}
 		playerNumber = true
-
+		draw = false
 	}
-	let fullboard = false
+	$: fullboard = false
 	function checkDraw(){
 		for(let prop in buttonsDict){
 			if(buttonsDict[prop]==""){
@@ -91,21 +92,21 @@
 		return fullboard
 	}
 	
-
+	
 
 
 </script>
 <body>
 <main>
 	
-
 	{#if winner != "" }
 		<p class="message">{winner} has won!</p>
-		{:else if checkDraw()==false && winner==""}
-		<p class="message">Current player: {currentPlayer}</p>
-		{:else if checkDraw()==true && winner==""}
-		<p class="message">DRAW</p>
+	{:else if draw==true} <p class="message">It's a draw!</p>
+	{:else if draw==false} <p class="message">Current player: {currentPlayer}</p>
+		
 	{/if}
+		
+	
 
 		<br>
 	<div>
